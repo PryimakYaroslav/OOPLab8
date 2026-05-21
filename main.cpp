@@ -1,8 +1,12 @@
 #include <iostream>
 #include <array>
 #include <vector>
+#include <deque>
 #include <string>
 
+// ==========================================
+// Клас Товар (Product)
+// ==========================================
 class Product {
 private:
     std::string name;
@@ -18,6 +22,9 @@ public:
 
     // Оператор для Завдання 2 (Перевірка ID на парність: product % 2)
     int operator%(int value) const { return this->id % value; }
+
+    // Оператор для Завдання 3 (Порівняння імен для паліндрому)
+    bool operator!=(const Product& other) const { return this->name != other.name; }
 
     friend std::ostream& operator<<(std::ostream& os, const Product& p) {
         os << p.name << "(id:" << p.id << ")";
@@ -98,8 +105,44 @@ void split(const std::vector<T>& src, std::vector<T>& evens, std::vector<T>& odd
     }
 }
 
+
+////////////////////ЗАВДАННЯ 3////////////////////////
+
+
+// Головна шаблонна функція перевірки паліндрому
+template <typename T>
+bool palindrome(const std::deque<T>& deq) {
+    if (deq.size() <= 1) {
+        return true;
+    }
+    auto left = deq.cbegin();
+    auto right = deq.cend() - 1;
+    while (left < right) {
+        if (*left != *right) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
+// Допоміжне виведення та тест для паліндрому
+template <typename T>
+void check_palindrome(const std::string& label, const std::deque<T>& deq) {
+    std::cout << label << ": [ ";
+    for (auto it = deq.begin(); it != deq.end(); it++) {
+        std::cout << *it << " ";
+    }
+    std::cout << "] -> " << (palindrome(deq) ? "ПАЛІНДРОМ" : "НЕ паліндром") << std::endl;
+}
+
+
+// ==========================================
+// Головна програма
+// ==========================================
 int main() {
-    std::cout << "=================== TASK 1  ===================" << std::endl;
+    std::cout << "=================== TASK 1 ===================" << std::endl;
     std::cout << "--- EXAMPLE WITH INT ---" << std::endl;
     std::array<int, 4> arr_int1 = {45, 12, 89, 7};
     std::array<int, 3> arr_int2 = {23, 3, 56};
@@ -161,6 +204,31 @@ int main() {
     print_vector("Original products", product_list);
     print_vector("Products with Even IDs", evens_products);
     print_vector("Products with Odd IDs", odds_products);
+    std::cout << std::endl;
+
+    std::cout << "=================== TASK 3 ===================" << std::endl;
+    std::cout << "--- EXAMPLE WITH STRING ---" << std::endl;
+    std::deque<std::string> deq_str1 = {"r", "a", "d", "a", "r"};
+    std::deque<std::string> deq_str2 = {"h", "e", "l", "l", "o"};
+    
+    check_palindrome("String Deque 1", deq_str1);
+    check_palindrome("String Deque 2", deq_str2);
+    std::cout << std::endl;
+
+    std::cout << "--- EXAMPLES WITH PRODUCT OBJECTS ---" << std::endl;
+    std::deque<Product> shop_deq1 = {
+        Product("Laptop", 1),
+        Product("Mouse", 2),
+        Product("Laptop", 3)
+    };
+    std::deque<Product> shop_deq2 = {
+        Product("Laptop", 1),
+        Product("Mouse", 2),
+        Product("Keyboard", 3)
+    };
+
+    check_palindrome("Product Deque 1 (by name)", shop_deq1);
+    check_palindrome("Product Deque 2 (by name)", shop_deq2);
     std::cout << "=============================================================" << std::endl;
 
     return 0;
