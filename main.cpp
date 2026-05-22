@@ -4,9 +4,7 @@
 #include <deque>
 #include <string>
 
-// ==========================================
 // Клас Товар (Product)
-// ==========================================
 class Product {
 private:
     std::string name;
@@ -16,14 +14,11 @@ public:
     Product() : name("Unknown"), id(0) {}
     Product(std::string name, int id) : name(name), id(id) {}
 
-    // Оператори для Завдання 1 (Сортування за ID)
     bool operator>(const Product& other) const { return this->id > other.id; }
     bool operator<(const Product& other) const { return this->id < other.id; }
 
-    // Оператор для Завдання 2 (Перевірка ID на парність: product % 2)
     int operator%(int value) const { return this->id % value; }
 
-    // Оператор для Завдання 3 (Порівняння імен для паліндрому)
     bool operator!=(const Product& other) const { return this->name != other.name; }
 
     friend std::ostream& operator<<(std::ostream& os, const Product& p) {
@@ -32,11 +27,8 @@ public:
     }
 };
 
-
 //////////////////ЗАВДАННЯ 1/////////////////////////
 
-
-// Сортування бульбашкою через ітератори
 template <typename T, size_t N>
 void sort_array(std::array<T, N>& arr) {
     if (N <= 1) return; 
@@ -60,7 +52,6 @@ void print_array(const std::string& label, const std::array<T, N>& arr) {
     std::cout << std::endl;
 }
 
-// Головна функція злиття масивів
 template <typename T, size_t N, size_t M>
 std::array<T, N + M> merge_arrays(const std::array<T, N>& a, const std::array<T, M>& b) {
     std::array<T, N + M> c;
@@ -82,8 +73,6 @@ std::array<T, N + M> merge_arrays(const std::array<T, N>& a, const std::array<T,
 
 ////////////////////ЗАВДАННЯ 2////////////////////////
 
-
-// Допоміжне виведення для std::vector
 template <typename T>
 void print_vector(const std::string& label, const std::vector<T>& vec) {
     std::cout << label << ": ";
@@ -93,7 +82,6 @@ void print_vector(const std::string& label, const std::vector<T>& vec) {
     std::cout << std::endl;
 }
 
-// Головна функція розбиття на дві групи
 template <typename T>
 void split(const std::vector<T>& src, std::vector<T>& evens, std::vector<T>& odds) {
     for (auto it = src.begin(); it != src.end(); ++it) {
@@ -109,7 +97,6 @@ void split(const std::vector<T>& src, std::vector<T>& evens, std::vector<T>& odd
 ////////////////////ЗАВДАННЯ 3////////////////////////
 
 
-// Головна шаблонна функція перевірки паліндрому
 template <typename T>
 bool palindrome(const std::deque<T>& deq) {
     if (deq.size() <= 1) {
@@ -127,20 +114,15 @@ bool palindrome(const std::deque<T>& deq) {
     return true;
 }
 
-// Допоміжне виведення та тест для паліндрому
 template <typename T>
 void check_palindrome(const std::string& label, const std::deque<T>& deq) {
     std::cout << label << ": [ ";
     for (auto it = deq.begin(); it != deq.end(); it++) {
         std::cout << *it << " ";
     }
-    std::cout << "] -> " << (palindrome(deq) ? "ПАЛІНДРОМ" : "НЕ паліндром") << std::endl;
+    std::cout << "] -> " << (palindrome(deq) ? "Palindrom" : "Not palindrom") << std::endl;
 }
 
-
-// ==========================================
-// Головна програма
-// ==========================================
 int main() {
     std::cout << "=================== TASK 1 ===================" << std::endl;
     std::cout << "--- EXAMPLE WITH INT ---" << std::endl;
